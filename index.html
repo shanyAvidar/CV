@@ -17,6 +17,7 @@
     --rule: rgba(27,26,23,0.14);
     --rule-strong: rgba(27,26,23,0.30);
     --font: 'Avenir Next', Avenir, 'Century Gothic', Futura, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --font-editorial: 'Iowan Old Style', 'Palatino Linotype', Georgia, 'Times New Roman', serif;
 
     /* Sidebar is a deliberate fixed-dark rail — same values in light or dark page theme */
     --side-bg: #1B1A17;
@@ -203,8 +204,9 @@
   .main-inner { max-width: 680px; margin: 0 auto; }
 
   .intro {
-    font-size: clamp(1rem, 1.5vw, 1.1rem);
-    line-height: 1.68;
+    font-family: var(--font-editorial);
+    font-size: clamp(1.05rem, 1.6vw, 1.18rem);
+    line-height: 1.7;
     color: var(--ink);
     margin: 0 0 clamp(2.75rem, 6vw, 4rem);
   }
@@ -320,6 +322,19 @@
     padding: 0.15rem 0 0.15rem 1.3rem;
     border-left: 2px solid var(--accent);
   }
+
+  .pull .caret {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--accent);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .pull .caret { animation: caret-blink 0.9s step-end infinite; }
+  }
+  @keyframes caret-blink { 50% { opacity: 0; } }
 
   .role ul { margin: 0; padding: 0 0 0 1.15rem; list-style: none; }
   .role li {
@@ -604,6 +619,39 @@
 
     document.querySelectorAll('.role').forEach(function (el) {
       revealObserver.observe(el);
+    });
+  }
+
+  function typewrite(el) {
+    var text = el.textContent;
+    el.textContent = '';
+    var caret = document.createElement('span');
+    caret.className = 'caret';
+    el.appendChild(caret);
+    var i = 0;
+    (function tick() {
+      if (i < text.length) {
+        caret.insertAdjacentText('beforebegin', text.charAt(i));
+        i++;
+        setTimeout(tick, 20);
+      } else {
+        caret.remove();
+      }
+    })();
+  }
+
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    var quoteObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          typewrite(entry.target);
+          quoteObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.6 });
+
+    document.querySelectorAll('.pull').forEach(function (el) {
+      quoteObserver.observe(el);
     });
   }
 
