@@ -17,6 +17,13 @@
     --rule: rgba(27,26,23,0.14);
     --rule-strong: rgba(27,26,23,0.30);
     --font: 'Avenir Next', Avenir, 'Century Gothic', Futura, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+
+    /* Sidebar is a deliberate fixed-dark rail — same values in light or dark page theme */
+    --side-bg: #1B1A17;
+    --side-text: #F5F4EF;
+    --side-text-soft: #B9B6AC;
+    --side-rule: rgba(245,244,239,0.14);
+    --side-accent: #86AE85;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -45,7 +52,7 @@
     --rule-strong: rgba(237,234,226,0.30);
   }
 
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; min-width: 0; }
 
   html, body {
     margin: 0;
@@ -62,103 +69,215 @@
     a { transition: color 0.15s ease; }
   }
 
-  .download-bar {
-    display: flex;
-    justify-content: center;
-    padding: 1.1rem 1rem 0;
-  }
-  .download-bar a {
-    font-size: 0.78rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    text-decoration: none;
-    color: var(--ink-soft);
-    border: 1px solid var(--rule-strong);
-    padding: 0.55rem 1.1rem;
-    border-radius: 2px;
-  }
-  .download-bar a:hover { color: var(--accent); border-color: var(--accent); }
+  img { max-width: 100%; display: block; }
 
-  .spread {
+  /* ================= Layout ================= */
+
+  .layout {
+    display: grid;
+    grid-template-columns: 296px 1fr;
+    min-height: 100vh;
+  }
+  .layout > * { min-width: 0; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  /* ================= Sidebar ================= */
+
+  .sidebar {
+    background: var(--side-bg);
+    color: var(--side-text);
+    padding: 2.75rem 1.9rem 2rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: clamp(2.5rem, 6vw, 4.5rem);
-    padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem) clamp(4rem, 8vw, 6rem);
+    gap: 2.1rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
   }
 
-  .page {
-    background: var(--paper);
-    width: 100%;
-    max-width: 920px;
-    padding: clamp(2.25rem, 6vw, 5rem) clamp(1.75rem, 7vw, 5.5rem);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 18px 48px -20px rgba(0,0,0,0.35);
-    position: relative;
+  @media (max-width: 900px) {
+    .sidebar { position: static; height: auto; }
   }
 
-  .col { max-width: 640px; }
-  .col--wide { max-width: 680px; }
+  .avatar-frame {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--side-accent);
+    padding: 3px;
+  }
+  .avatar-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 
-  /* ---------- Masthead ---------- */
-
-  .masthead { margin-bottom: clamp(2rem, 5vw, 3rem); }
-
-  .masthead h1 {
+  .side-name {
+    font-size: 1.5rem;
     font-weight: 750;
-    font-size: clamp(2.3rem, 6.8vw, 4.1rem);
-    line-height: 0.98;
-    letter-spacing: -0.015em;
-    margin: 0 0 0.85rem;
-    text-wrap: balance;
+    letter-spacing: -0.01em;
+    margin: 1.1rem 0 0.3rem;
+    line-height: 1.05;
   }
 
-  .masthead .territory {
-    font-size: 0.82rem;
+  .side-title {
+    font-size: 0.78rem;
     text-transform: uppercase;
-    letter-spacing: 0.16em;
-    color: var(--ink-soft);
-    margin: 0 0 1.1rem;
+    letter-spacing: 0.14em;
+    color: var(--side-text-soft);
+    margin: 0;
   }
 
-  .masthead .contact {
+  .side-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1.1rem;
+  }
+  .side-tags span {
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--side-text-soft);
+    border: 1px solid var(--side-rule);
+    border-radius: 2px;
+    padding: 0.3rem 0.55rem;
+  }
+
+  .side-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    border-top: 1px solid var(--side-rule);
+    border-bottom: 1px solid var(--side-rule);
+    padding: 1.3rem 0;
+  }
+  .side-nav a {
     font-size: 0.82rem;
-    color: var(--ink-faint);
-    letter-spacing: 0.01em;
+    text-decoration: none;
+    color: var(--side-text-soft);
+    padding: 0.45rem 0.1rem;
+    border-left: 2px solid transparent;
+    padding-left: 0.7rem;
   }
-  .masthead .contact a:hover { color: var(--accent); }
-  .masthead .contact .sep { margin: 0 0.55em; color: var(--rule-strong); }
+  @media (prefers-reduced-motion: no-preference) {
+    .side-nav a { transition: color 0.15s ease, border-color 0.15s ease; }
+  }
+  .side-nav a.active, .side-nav a:hover {
+    color: var(--side-text);
+    border-left-color: var(--side-accent);
+  }
 
-  /* ---------- Intro ---------- */
+  .side-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--side-text-soft);
+  }
+  .side-contact a { text-decoration: none; }
+  .side-contact a:hover { color: var(--side-accent); }
+
+  .side-download {
+    margin-top: auto;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    color: var(--side-text);
+    border: 1px solid var(--side-rule);
+    border-radius: 2px;
+    padding: 0.65rem 1rem;
+  }
+  .side-download:hover { border-color: var(--side-accent); color: var(--side-accent); }
+
+  /* ================= Main ================= */
+
+  .main {
+    background: var(--paper);
+    padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 6vw, 5rem);
+  }
+  .main-inner { max-width: 680px; margin: 0 auto; }
 
   .intro {
     font-size: clamp(1rem, 1.5vw, 1.1rem);
     line-height: 1.68;
     color: var(--ink);
-    margin: 0 0 clamp(2.25rem, 5vw, 3.25rem);
+    margin: 0 0 clamp(2.75rem, 6vw, 4rem);
   }
   .intro p { margin: 0 0 1.1em; }
   .intro p:last-child { margin-bottom: 0; }
 
-  /* ---------- Capability line ---------- */
+  /* ================= Timeline ================= */
 
-  .capability-line {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
-    color: var(--ink-soft);
-    text-align: center;
-    padding: 1.1rem 0;
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-    margin-bottom: clamp(2.5rem, 6vw, 3.75rem);
+  .timeline-track {
+    position: relative;
+    padding-left: 76px;
   }
-  .capability-line .dot { color: var(--accent); margin: 0 0.7em; }
+  .track-line {
+    position: absolute;
+    left: 30px;
+    top: 6px;
+    bottom: 6px;
+    width: 0;
+    border-left: 2px dashed var(--rule-strong);
+  }
+  .avatar-marker {
+    position: absolute;
+    left: 14px;
+    top: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--accent);
+    background: var(--paper);
+    z-index: 3;
+    opacity: 0;
+  }
+  .avatar-marker img { width: 100%; height: 100%; object-fit: cover; }
+  @media (prefers-reduced-motion: no-preference) {
+    .avatar-marker { transition: top 0.2s linear, opacity 0.25s ease; }
+  }
 
-  /* ---------- Role sections ---------- */
-
+  .role, .role-group { position: relative; }
   .role { margin-bottom: clamp(3rem, 7vw, 4.5rem); }
+  .role-group .role:last-child { margin-bottom: clamp(3rem, 7vw, 4.5rem); }
   .role:last-child { margin-bottom: 0; }
+  .role-group:last-child .role:last-child { margin-bottom: 0; }
+
+  .node-logo {
+    position: absolute;
+    left: -68px;
+    top: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid var(--rule);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 2;
+  }
+  .node-logo img { width: 78%; height: 78%; object-fit: contain; }
+
+  @media (max-width: 640px) {
+    .timeline-track { padding-left: 58px; }
+    .track-line { left: 22px; }
+    .avatar-marker { left: 6px; }
+    .node-logo { left: -52px; width: 34px; height: 34px; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .role { opacity: 0; transform: translateY(18px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .role.in-view { opacity: 1; transform: none; }
+  }
 
   .role .label {
     display: flex;
@@ -196,7 +315,6 @@
     font-size: clamp(1.05rem, 1.8vw, 1.25rem);
     line-height: 1.6;
     color: var(--ink);
-    max-width: 520px;
     margin: 0 0 2.3rem;
     position: relative;
     padding: 0.15rem 0 0.15rem 1.3rem;
@@ -230,19 +348,19 @@
     font-size: 1.02rem;
     color: var(--ink-soft);
     margin-top: 1.6rem;
-    max-width: 520px;
   }
 
-  /* ---------- Colophon (education / languages) ---------- */
+  /* ================= Colophon (education / languages) ================= */
 
   .colophon {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2.25rem;
     padding-top: 2.25rem;
+    margin-top: clamp(2rem, 5vw, 3rem);
     border-top: 1px solid var(--rule);
   }
-  @media (min-width: 640px) {
+  @media (min-width: 560px) {
     .colophon { grid-template-columns: 1.3fr 1fr; }
   }
 
@@ -277,158 +395,238 @@
     text-align: center;
     margin: 2.5rem 0 0;
   }
-
-  /* ---------- Folio ---------- */
-
-  .folio {
-    display: flex;
-    justify-content: space-between;
-    margin-top: clamp(3rem, 6vw, 4rem);
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--rule);
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--ink-faint);
-  }
 </style>
 </head>
 <body>
 
-<div class="download-bar">
-  <a href="Shany-Avidar-CV.pdf" download>Download PDF</a>
-</div>
-
-<div class="spread">
-
-  <article class="page">
-    <header class="masthead col">
-      <h1>Shany Avidar</h1>
-      <p class="territory">CMO &middot; Brand &middot; Product &middot; AI &middot; Growth &middot; Sales</p>
-      <p class="contact">
-        Tel Aviv<span class="sep">&middot;</span><a href="mailto:shanyavidar@gmail.com">shanyavidar@gmail.com</a><span class="sep">&middot;</span><a href="tel:+972523219497">052-3219497</a><span class="sep">&middot;</span>LinkedIn
-      </p>
-    </header>
-
-    <section class="intro col--wide">
-      <p>CMO. Operator of things that don&rsquo;t fit neatly into job descriptions.</p>
-      <p>I started in marketing. Somewhere along the way, the borders got blurry.</p>
-      <p>Today I build the story, the brand and the growth engine, but I also design product flows, build automations, QA what we ship, work directly with developers (and yes, I&rsquo;ve even developed a few things myself :)), manage people, talk to customers and step into sales when that&rsquo;s where the company needs me.</p>
-      <p>AI has changed what I&rsquo;m able to take on. I use it deeply across strategy, research, product, design, automation, creative work and execution, and I&rsquo;ve become very good at learning whatever I need to learn next. Fast.</p>
-      <p>That&rsquo;s probably the biggest shift in me over the last few years: I stopped thinking in terms of what belongs to my role.</p>
-      <p>If something needs to exist, work better, look better, sell better or simply get done, I&rsquo;m usually already figuring out how.</p>
-      <p>I&rsquo;m still a marketer at heart. I just became considerably harder to put in a box.</p>
-    </section>
-
-    <div class="capability-line">
-      Brand<span class="dot">&middot;</span>Product<span class="dot">&middot;</span>AI<span class="dot">&middot;</span>Automation<span class="dot">&middot;</span>Growth<span class="dot">&middot;</span>Sales
-    </div>
-
-    <section class="role now col--wide">
-      <div class="label"><span>Now</span><div class="rule"></div></div>
-      <h2 class="title">Chief Marketing Officer (CMO)</h2>
-      <p class="org">RatingIQ &middot; Raanana &middot; 2026&ndash;Present</p>
-      <p class="pull">RatingIQ is probably where my job description officially stopped being useful.</p>
-      <ul>
-        <li>Repositioned the company from a review-management tool into a Rating-Performance System for hotels, building the category, brand, messaging and commercial narrative around the impact of reputation on rankings, bookings, room revenue and pricing performance.</li>
-        <li>Built the company&rsquo;s digital presence from scratch, strategy, architecture, copy, creative direction and hands-on website execution, alongside the broader brand system and market-facing identity.</li>
-        <li>Expanded deeply into product, designing UX/UI flows, shaping features around real hotel operational needs, working directly with development and taking an active role in product QA before things reached customers.</li>
-        <li>Made AI and automation part of how I work, not a side tool: using AI across strategy, research, product, design and creative production, while personally building automations for social channels and broader marketing workflows.</li>
-        <li>Built and led the growth engine from positioning through pipeline, spanning content, outbound, acquisition, sales enablement and customer communication, then stepped directly into sales conversations to help turn interest into opportunities and revenue.</li>
-        <li>Managed interns and cross-functional initiatives while staying deliberately hands-on. Strategy when strategy was needed. Execution when execution was needed. Occasionally both before lunch.</li>
-      </ul>
-    </section>
-
-    <section class="role before col--wide">
-      <div class="label"><span>Before That</span><div class="rule"></div></div>
-      <h2 class="title">Head of Marketing</h2>
-      <p class="org">Peech-ai &middot; Raanana &middot; 2025&ndash;2026</p>
-      <p class="pull">I came in to fix the story. The numbers followed.</p>
-      <ul>
-        <li>Joined as the first marketing hire and rebuilt the company&rsquo;s positioning, ICPs, messaging and GTM narrative from the ground up, aligning product, sales, leadership, board members and investors around one story.</li>
-        <li>Launched a new hero homepage in roughly 7 days, generating approximately 78 organic inbound leads within days and converting early demand into around 20 booked sales calls before any paid campaigns launched.</li>
-        <li>Built the founder-led authority strategy, content direction and narrative that positioned the CEO as a credible category voice rather than another founder posting because LinkedIn said he should.</li>
-        <li>Created the core commercial infrastructure around the story: sales, board and internal decks; seven marketing videos; the company&rsquo;s first strategic content playbook; segmented email sequences; campaign concepts and landing-page architecture.</li>
-        <li>Explored new GTM routes, partnerships and distribution opportunities beyond traditional SaaS buyers, while running marketing end-to-end as a solo operator under a $20K monthly budget and spending less than half of it.</li>
-        <li>Owned strategy, execution, analytics and sales alignment in an early-stage environment where speed mattered, but clarity mattered more.</li>
-      </ul>
-      <p class="closer">Running it solo didn&rsquo;t make the job smaller. It just meant every part of it ran through me.</p>
-    </section>
-
-    <footer class="folio"><span>Shany Avidar &middot; CV</span><span>Page 1</span></footer>
-  </article>
-
-  <article class="page">
-    <section class="role building col--wide">
-      <div class="label"><span>The Building Years</span><div class="rule"></div></div>
-      <h2 class="title">Head of Marketing</h2>
-      <p class="org">Crow &middot; Airport City &middot; 2024&ndash;2025</p>
-      <p class="pull">This was the first role where I really learned what building marketing from zero feels like, and where I first felt completely on top of my game.</p>
-      <ul>
-        <li>Joined at an early growth stage and built the company&rsquo;s marketing foundation from scratch, defining positioning, messaging and the brand narrative for a competitive B2B market.</li>
-        <li>Translated a complex product into a clearer commercial story, strengthening sales conversations and market credibility within the first months.</li>
-        <li>Built and executed campaigns, content, sales materials, event presence and digital assets in-house, without waiting on an agency or a bigger team to do it.</li>
-        <li>Worked closely with sales and leadership, treating marketing as part of the revenue operation rather than a department waiting for briefs.</li>
-        <li>Built relationships with partners, vendors and prospects while learning the part of startup marketing I now value most: ownership usually matters more than resources.</li>
-      </ul>
-    </section>
-
-    <section class="role global col--wide">
-      <div class="label"><span>The Global Years</span><div class="rule"></div></div>
-      <h2 class="title">Senior Global Marketing Manager</h2>
-      <p class="org">Essence Group &middot; Herzliya &middot; 2021&ndash;2024</p>
-      <p class="pull">Before startup life made me allergic to narrow job descriptions, I learned how to operate globally.</p>
-      <ul>
-        <li>Led marketing initiatives across 20+ international markets and multiple product lines spanning IoT Security, SmartCare and Medical Cosmetics.</li>
-        <li>Adapted positioning, messaging and GTM activity to different regions, regulations, buyer personas and commercial realities.</li>
-        <li>Supported launches and rebranding initiatives and created sales-enablement materials including case studies, videos, brochures and whitepapers.</li>
-        <li>Planned and executed major international exhibitions and conferences, working across sales, product, regional teams and external suppliers.</li>
-        <li>Launched a new corporate website designed around sales and inbound demand, contributing to an estimated 25% improvement in lead quality and engagement.</li>
-        <li>Defined and orchestrated Essence&rsquo;s first partners program, my earliest hands-on step into product management, built to extend reach and keep execution consistent across every market.</li>
-        <li>Produced product videos, customer testimonials and marketing videos in-house, rather than outsourcing the company&rsquo;s visual storytelling.</li>
-        <li>Built the kind of cross-market experience that later made early-stage chaos feel surprisingly manageable.</li>
-      </ul>
-    </section>
-
-    <section class="role global col--wide" style="margin-bottom: 2.5rem;">
-      <h2 class="title">Marketing Communications Manager</h2>
-      <p class="org">AiTechSystems &middot; Kfar Saba &middot; 2018&ndash;2021</p>
-      <p class="pull">This is where the foundation was built.</p>
-      <ul>
-        <li>Developed integrated marketing campaigns across international markets, creating industry-specific messaging and thought-leadership content.</li>
-        <li>Led branding and content for exhibitions, webinars and product showcases while managing multilingual, market-specific communication.</li>
-        <li>Used traffic, engagement and lead data to continuously improve digital performance, conversion and retention.</li>
-        <li>Learned how brand, content, sales and customer relationships connect long before I started giving those connections fancy strategic names.</li>
-      </ul>
-    </section>
-
-    <div class="colophon col--wide">
-      <div>
-        <p class="label">Education</p>
-        <div class="degree">
-          <p class="name">BA, Interior Design</p>
-          <p class="school">Istituto Europeo Di Design &middot; Barcelona, Spain</p>
-        </div>
-        <div class="degree">
-          <p class="name">Academic Degree, Culinary Arts</p>
-          <p class="school">Tadmor Academy &middot; Herzliya, Israel</p>
-        </div>
-      </div>
-      <div>
-        <p class="label">Languages</p>
-        <div class="lang-row"><span>Hebrew</span><span class="level">Native</span></div>
-        <div class="lang-row"><span>English</span><span class="level">Native level</span></div>
-        <div class="lang-row"><span>Spanish</span><span class="level">Basic</span></div>
-        <div class="lang-row"><span>Russian</span><span class="level">Basic</span></div>
+<div class="layout">
+  <aside class="sidebar">
+    <div>
+      <div class="avatar-frame"><img src="assets/avatar.png" alt="Shany Avidar"></div>
+      <h1 class="side-name">Shany Avidar</h1>
+      <p class="side-title">CMO</p>
+      <div class="side-tags">
+        <span>Brand</span><span>Product</span><span>AI</span><span>Automation</span><span>Growth</span><span>Sales</span>
       </div>
     </div>
 
-    <p class="final-line col--wide">Yes, marketing came later. No, neither degree was wasted.</p>
+    <nav class="side-nav" id="sideNav">
+      <a href="#now" data-section="now">Now</a>
+      <a href="#before" data-section="before">Before That</a>
+      <a href="#building" data-section="building">The Building Years</a>
+      <a href="#global" data-section="global">The Global Years</a>
+      <a href="#education" data-section="education">Education</a>
+    </nav>
 
-    <footer class="folio"><span>Shany Avidar &middot; CV</span><span>Page 2</span></footer>
-  </article>
+    <div class="side-contact">
+      <span>Tel Aviv</span>
+      <a href="mailto:shanyavidar@gmail.com">shanyavidar@gmail.com</a>
+      <a href="tel:+972523219497">052-3219497</a>
+      <span>LinkedIn</span>
+    </div>
 
+    <a class="side-download" href="Shany-Avidar-CV.pdf" download>Download PDF</a>
+  </aside>
+
+  <main class="main">
+    <div class="main-inner">
+
+      <section class="intro">
+        <p>CMO. Operator of things that don&rsquo;t fit neatly into job descriptions.</p>
+        <p>I started in marketing. Somewhere along the way, the borders got blurry.</p>
+        <p>Today I build the story, the brand and the growth engine, but I also design product flows, build automations, QA what we ship, work directly with developers (and yes, I&rsquo;ve even developed a few things myself :)), manage people, talk to customers and step into sales when that&rsquo;s where the company needs me.</p>
+        <p>AI has changed what I&rsquo;m able to take on. I use it deeply across strategy, research, product, design, automation, creative work and execution, and I&rsquo;ve become very good at learning whatever I need to learn next. Fast.</p>
+        <p>That&rsquo;s probably the biggest shift in me over the last few years: I stopped thinking in terms of what belongs to my role.</p>
+        <p>If something needs to exist, work better, look better, sell better or simply get done, I&rsquo;m usually already figuring out how.</p>
+        <p>I&rsquo;m still a marketer at heart. I just became considerably harder to put in a box.</p>
+      </section>
+
+      <div class="timeline-track" id="track">
+        <div class="track-line"></div>
+        <div class="avatar-marker" id="avatarMarker"><img src="assets/avatar.png" alt=""></div>
+
+        <article class="role" id="now">
+          <div class="node-logo"><img src="assets/logo-ratingiq.png" alt="RatingIQ logo"></div>
+          <div class="label"><span>Now</span><div class="rule"></div></div>
+          <h2 class="title">Chief Marketing Officer (CMO)</h2>
+          <p class="org">RatingIQ &middot; Raanana &middot; 2026&ndash;Present</p>
+          <p class="pull">RatingIQ is probably where my job description officially stopped being useful.</p>
+          <ul>
+            <li>Repositioned the company from a review-management tool into a Rating-Performance System for hotels, building the category, brand, messaging and commercial narrative around the impact of reputation on rankings, bookings, room revenue and pricing performance.</li>
+            <li>Built the company&rsquo;s digital presence from scratch, strategy, architecture, copy, creative direction and hands-on website execution, alongside the broader brand system and market-facing identity.</li>
+            <li>Expanded deeply into product, designing UX/UI flows, shaping features around real hotel operational needs, working directly with development and taking an active role in product QA before things reached customers.</li>
+            <li>Made AI and automation part of how I work, not a side tool: using AI across strategy, research, product, design and creative production, while personally building automations for social channels and broader marketing workflows.</li>
+            <li>Built and led the growth engine from positioning through pipeline, spanning content, outbound, acquisition, sales enablement and customer communication, then stepped directly into sales conversations to help turn interest into opportunities and revenue.</li>
+            <li>Managed interns and cross-functional initiatives while staying deliberately hands-on. Strategy when strategy was needed. Execution when execution was needed. Occasionally both before lunch.</li>
+          </ul>
+        </article>
+
+        <article class="role" id="before">
+          <div class="node-logo"><img src="assets/logo-peech.png" alt="Peech logo"></div>
+          <div class="label"><span>Before That</span><div class="rule"></div></div>
+          <h2 class="title">Head of Marketing</h2>
+          <p class="org">Peech-ai &middot; Raanana &middot; 2025&ndash;2026</p>
+          <p class="pull">I came in to fix the story. The numbers followed.</p>
+          <ul>
+            <li>Joined as the first marketing hire and rebuilt the company&rsquo;s positioning, ICPs, messaging and GTM narrative from the ground up, aligning product, sales, leadership, board members and investors around one story.</li>
+            <li>Launched a new hero homepage in roughly 7 days, generating approximately 78 organic inbound leads within days and converting early demand into around 20 booked sales calls before any paid campaigns launched.</li>
+            <li>Built the founder-led authority strategy, content direction and narrative that positioned the CEO as a credible category voice rather than another founder posting because LinkedIn said he should.</li>
+            <li>Created the core commercial infrastructure around the story: sales, board and internal decks; seven marketing videos; the company&rsquo;s first strategic content playbook; segmented email sequences; campaign concepts and landing-page architecture.</li>
+            <li>Explored new GTM routes, partnerships and distribution opportunities beyond traditional SaaS buyers, while running marketing end-to-end as a solo operator under a $20K monthly budget and spending less than half of it.</li>
+            <li>Owned strategy, execution, analytics and sales alignment in an early-stage environment where speed mattered, but clarity mattered more.</li>
+          </ul>
+          <p class="closer">Running it solo didn&rsquo;t make the job smaller. It just meant every part of it ran through me.</p>
+        </article>
+
+        <article class="role" id="building">
+          <div class="node-logo"><img src="assets/logo-crow.png" alt="Crow logo"></div>
+          <div class="label"><span>The Building Years</span><div class="rule"></div></div>
+          <h2 class="title">Head of Marketing</h2>
+          <p class="org">Crow &middot; Airport City &middot; 2024&ndash;2025</p>
+          <p class="pull">This was the first role where I really learned what building marketing from zero feels like, and where I first felt completely on top of my game.</p>
+          <ul>
+            <li>Joined at an early growth stage and built the company&rsquo;s marketing foundation from scratch, defining positioning, messaging and the brand narrative for a competitive B2B market.</li>
+            <li>Translated a complex product into a clearer commercial story, strengthening sales conversations and market credibility within the first months.</li>
+            <li>Built and executed campaigns, content, sales materials, event presence and digital assets in-house, without waiting on an agency or a bigger team to do it.</li>
+            <li>Worked closely with sales and leadership, treating marketing as part of the revenue operation rather than a department waiting for briefs.</li>
+            <li>Built relationships with partners, vendors and prospects while learning the part of startup marketing I now value most: ownership usually matters more than resources.</li>
+          </ul>
+        </article>
+
+        <div class="role-group" id="global">
+          <article class="role">
+            <div class="node-logo"><img src="assets/logo-essence.png" alt="Essence Group logo"></div>
+            <div class="label"><span>The Global Years</span><div class="rule"></div></div>
+            <h2 class="title">Senior Global Marketing Manager</h2>
+            <p class="org">Essence Group &middot; Herzliya &middot; 2021&ndash;2024</p>
+            <p class="pull">Before startup life made me allergic to narrow job descriptions, I learned how to operate globally.</p>
+            <ul>
+              <li>Led marketing initiatives across 20+ international markets and multiple product lines spanning IoT Security, SmartCare and Medical Cosmetics.</li>
+              <li>Adapted positioning, messaging and GTM activity to different regions, regulations, buyer personas and commercial realities.</li>
+              <li>Supported launches and rebranding initiatives and created sales-enablement materials including case studies, videos, brochures and whitepapers.</li>
+              <li>Planned and executed major international exhibitions and conferences, working across sales, product, regional teams and external suppliers.</li>
+              <li>Launched a new corporate website designed around sales and inbound demand, contributing to an estimated 25% improvement in lead quality and engagement.</li>
+              <li>Defined and orchestrated Essence&rsquo;s first partners program, my earliest hands-on step into product management, built to extend reach and keep execution consistent across every market.</li>
+              <li>Produced product videos, customer testimonials and marketing videos in-house, rather than outsourcing the company&rsquo;s visual storytelling.</li>
+              <li>Built the kind of cross-market experience that later made early-stage chaos feel surprisingly manageable.</li>
+            </ul>
+          </article>
+
+          <article class="role">
+            <div class="node-logo"><img src="assets/logo-aitech.png" alt="AiTechSystems logo"></div>
+            <h2 class="title">Marketing Communications Manager</h2>
+            <p class="org">AiTechSystems &middot; Kfar Saba &middot; 2018&ndash;2021</p>
+            <p class="pull">This is where the foundation was built.</p>
+            <ul>
+              <li>Developed integrated marketing campaigns across international markets, creating industry-specific messaging and thought-leadership content.</li>
+              <li>Led branding and content for exhibitions, webinars and product showcases while managing multilingual, market-specific communication.</li>
+              <li>Used traffic, engagement and lead data to continuously improve digital performance, conversion and retention.</li>
+              <li>Learned how brand, content, sales and customer relationships connect long before I started giving those connections fancy strategic names.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+
+      <section class="colophon" id="education">
+        <div>
+          <p class="label">Education</p>
+          <div class="degree">
+            <p class="name">BA, Interior Design</p>
+            <p class="school">Istituto Europeo Di Design &middot; Barcelona, Spain</p>
+          </div>
+          <div class="degree">
+            <p class="name">Academic Degree, Culinary Arts</p>
+            <p class="school">Tadmor Academy &middot; Herzliya, Israel</p>
+          </div>
+        </div>
+        <div>
+          <p class="label">Languages</p>
+          <div class="lang-row"><span>Hebrew</span><span class="level">Native</span></div>
+          <div class="lang-row"><span>English</span><span class="level">Native level</span></div>
+          <div class="lang-row"><span>Spanish</span><span class="level">Basic</span></div>
+          <div class="lang-row"><span>Russian</span><span class="level">Basic</span></div>
+        </div>
+      </section>
+
+      <p class="final-line">Yes, marketing came later. No, neither degree was wasted.</p>
+
+    </div>
+  </main>
 </div>
+
+<script>
+(function () {
+  var track = document.getElementById('track');
+  var marker = document.getElementById('avatarMarker');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var nodeCenters = Array.prototype.map.call(
+    document.querySelectorAll('.role'),
+    function (el) { return el.offsetTop + 22; }
+  );
+
+  function updateMarker() {
+    var rect = track.getBoundingClientRect();
+    var anchor = window.innerHeight * 0.38;
+    var progress = (anchor - rect.top) / rect.height;
+    progress = Math.max(0, Math.min(1, progress));
+    var top = progress * rect.height;
+    marker.style.top = top + 'px';
+
+    var nearNode = nodeCenters.some(function (c) { return Math.abs(c - top) < 26; });
+    marker.style.opacity = nearNode ? '0' : '1';
+  }
+
+  var ticking = false;
+  function onScroll() {
+    if (!ticking) {
+      window.requestAnimationFrame(function () {
+        updateMarker();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  updateMarker();
+
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('.role').forEach(function (el) {
+      revealObserver.observe(el);
+    });
+  }
+
+  var navLinks = document.querySelectorAll('#sideNav a');
+  var sections = ['now', 'before', 'building', 'global', 'education']
+    .map(function (id) { return document.getElementById(id); })
+    .filter(Boolean);
+
+  if ('IntersectionObserver' in window) {
+    var navObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          navLinks.forEach(function (link) {
+            link.classList.toggle('active', link.dataset.section === entry.target.id);
+          });
+        }
+      });
+    }, { rootMargin: '-40% 0px -50% 0px' });
+
+    sections.forEach(function (section) { navObserver.observe(section); });
+  }
+})();
+</script>
 
 </body>
 </html>
