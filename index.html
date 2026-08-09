@@ -228,10 +228,10 @@
 
     .avatar-marker .fig-bob { animation: walk-bob 0.5s ease-in-out infinite; transform-box: fill-box; }
     .avatar-marker .fig-wobble { animation: walk-wobble 0.5s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
-    .avatar-marker .arm-left { animation: walk-arm-l 0.5s ease-in-out infinite; transform-origin: 10px 26px; }
-    .avatar-marker .arm-right { animation: walk-arm-r 0.5s ease-in-out infinite; transform-origin: 20px 26px; }
-    .avatar-marker .leg-left { animation: walk-leg-l 0.5s ease-in-out infinite; transform-origin: 13px 34px; }
-    .avatar-marker .leg-right { animation: walk-leg-r 0.5s ease-in-out infinite; transform-origin: 17px 34px; }
+    .avatar-marker .arm-left { animation: walk-arm-l 0.5s ease-in-out infinite; transform-origin: 10px 19px; }
+    .avatar-marker .arm-right { animation: walk-arm-r 0.5s ease-in-out infinite; transform-origin: 20px 19px; }
+    .avatar-marker .leg-left { animation: walk-leg-l 0.5s ease-in-out infinite; transform-origin: 13px 28px; }
+    .avatar-marker .leg-right { animation: walk-leg-r 0.5s ease-in-out infinite; transform-origin: 17px 28px; }
   }
 
   @keyframes walk-bob {
@@ -476,18 +476,12 @@
           <svg viewBox="0 0 30 50" xmlns="http://www.w3.org/2000/svg">
             <g class="fig-bob">
               <g class="fig-wobble">
-                <rect class="leg leg-left" x="11.5" y="34" width="3" height="10" rx="1.5" fill="#FFFFFF"/>
-                <rect class="leg leg-right" x="15.5" y="34" width="3" height="10" rx="1.5" fill="#FFFFFF"/>
-                <rect class="torso" x="11" y="25" width="8" height="10" rx="3" fill="#FFFFFF"/>
-                <rect class="arm arm-left" x="8.8" y="26" width="2.4" height="8" rx="1.2" fill="#FFFFFF"/>
-                <rect class="arm arm-right" x="18.8" y="26" width="2.4" height="8" rx="1.2" fill="#FFFFFF"/>
-                <ellipse class="hair" cx="15" cy="14" rx="13" ry="17" fill="#241C18"/>
-                <defs>
-                  <clipPath id="headClip">
-                    <circle cx="15" cy="11" r="10"/>
-                  </clipPath>
-                </defs>
-                <image class="head" href="assets/avatar-face.png" x="5" y="1" width="20" height="20" clip-path="url(#headClip)" preserveAspectRatio="xMidYMid slice"/>
+                <rect class="leg leg-left" x="11.5" y="28" width="3" height="10" rx="1.5" fill="#FFFFFF"/>
+                <rect class="leg leg-right" x="15.5" y="28" width="3" height="10" rx="1.5" fill="#FFFFFF"/>
+                <rect class="torso" x="11" y="18" width="8" height="10" rx="3" fill="#FFFFFF"/>
+                <rect class="arm arm-left" x="8.8" y="19" width="2.4" height="8" rx="1.2" fill="#FFFFFF"/>
+                <rect class="arm arm-right" x="18.8" y="19" width="2.4" height="8" rx="1.2" fill="#FFFFFF"/>
+                <image class="head" href="assets/avatar-face-cutout.png" x="2" y="2" width="26" height="17.3"/>
               </g>
             </g>
           </svg>
