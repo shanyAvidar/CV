@@ -215,10 +215,10 @@
   }
   .avatar-marker {
     position: absolute;
-    left: 16px;
+    left: 19px;
     top: 0;
-    width: 28px;
-    height: 47px;
+    width: 22px;
+    height: 48px;
     z-index: 3;
     opacity: 0;
   }
@@ -226,37 +226,17 @@
   @media (prefers-reduced-motion: no-preference) {
     .avatar-marker { transition: top 0.2s linear, opacity 0.25s ease; }
 
-    .avatar-marker .fig-bob { animation: walk-bob 0.5s ease-in-out infinite; transform-box: fill-box; }
-    .avatar-marker .fig-wobble { animation: walk-wobble 0.5s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
-    .avatar-marker .arm-left { animation: walk-arm-l 0.5s ease-in-out infinite; transform-origin: 10px 19px; }
-    .avatar-marker .arm-right { animation: walk-arm-r 0.5s ease-in-out infinite; transform-origin: 20px 19px; }
-    .avatar-marker .leg-left { animation: walk-leg-l 0.5s ease-in-out infinite; transform-origin: 13px 28px; }
-    .avatar-marker .leg-right { animation: walk-leg-r 0.5s ease-in-out infinite; transform-origin: 17px 28px; }
+    .avatar-marker .fig-bob { animation: walk-bob 0.45s ease-in-out infinite; transform-box: fill-box; }
+    .avatar-marker .fig-wobble { animation: walk-wobble 0.45s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
   }
 
   @keyframes walk-bob {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-3px); }
+    50% { transform: translateY(-4px); }
   }
   @keyframes walk-wobble {
-    0%, 100% { transform: rotate(-5deg); }
-    50% { transform: rotate(5deg); }
-  }
-  @keyframes walk-leg-l {
-    0%, 100% { transform: rotate(-32deg); }
-    50% { transform: rotate(32deg); }
-  }
-  @keyframes walk-leg-r {
-    0%, 100% { transform: rotate(32deg); }
-    50% { transform: rotate(-32deg); }
-  }
-  @keyframes walk-arm-l {
-    0%, 100% { transform: rotate(38deg); }
-    50% { transform: rotate(-38deg); }
-  }
-  @keyframes walk-arm-r {
-    0%, 100% { transform: rotate(-38deg); }
-    50% { transform: rotate(38deg); }
+    0%, 100% { transform: rotate(-8deg); }
+    50% { transform: rotate(8deg); }
   }
 
   .role, .role-group { position: relative; }
@@ -286,7 +266,7 @@
   @media (max-width: 640px) {
     .timeline-track { padding-left: 58px; }
     .track-line { left: 22px; }
-    .avatar-marker { left: 10px; width: 24px; height: 40px; }
+    .avatar-marker { left: 12px; width: 18px; height: 40px; }
     .node-logo { left: -52px; width: 34px; height: 34px; }
   }
 
@@ -476,12 +456,7 @@
           <svg viewBox="0 0 30 50" xmlns="http://www.w3.org/2000/svg">
             <g class="fig-bob">
               <g class="fig-wobble">
-                <rect class="leg leg-left" x="11.5" y="28" width="3" height="10" rx="1.5" fill="#FFFFFF"/>
-                <rect class="leg leg-right" x="15.5" y="28" width="3" height="10" rx="1.5" fill="#FFFFFF"/>
-                <rect class="torso" x="11" y="18" width="8" height="10" rx="3" fill="#FFFFFF"/>
-                <rect class="arm arm-left" x="8.8" y="19" width="2.4" height="8" rx="1.2" fill="#FFFFFF"/>
-                <rect class="arm arm-right" x="18.8" y="19" width="2.4" height="8" rx="1.2" fill="#FFFFFF"/>
-                <image class="head" href="assets/avatar-face-cutout.png" x="-10" y="-36" width="50" height="55"/>
+                <image class="bobblehead" href="assets/avatar-bobblehead.png" x="4" y="-8" width="22" height="48"/>
               </g>
             </g>
           </svg>
