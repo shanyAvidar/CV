@@ -215,10 +215,10 @@
   }
   .avatar-marker {
     position: absolute;
-    left: 19px;
+    left: 21px;
     top: 0;
-    width: 22px;
-    height: 48px;
+    width: 18px;
+    height: 39px;
     z-index: 3;
     opacity: 0;
   }
@@ -226,17 +226,12 @@
   @media (prefers-reduced-motion: no-preference) {
     .avatar-marker { transition: top 0.2s linear, opacity 0.25s ease; }
 
-    .avatar-marker .fig-bob { animation: walk-bob 0.45s ease-in-out infinite; transform-box: fill-box; }
-    .avatar-marker .fig-wobble { animation: walk-wobble 0.45s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+    .avatar-marker .bobble-head-wrap { animation: head-bob 1.1s ease-in-out infinite; transform-box: fill-box; }
   }
 
-  @keyframes walk-bob {
+  @keyframes head-bob {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); }
-  }
-  @keyframes walk-wobble {
-    0%, 100% { transform: rotate(-8deg); }
-    50% { transform: rotate(8deg); }
+    50% { transform: translateY(-1.5px); }
   }
 
   .role, .role-group { position: relative; }
@@ -454,10 +449,9 @@
         <div class="track-line"></div>
         <div class="avatar-marker" id="avatarMarker" aria-hidden="true">
           <svg viewBox="0 0 30 50" xmlns="http://www.w3.org/2000/svg">
-            <g class="fig-bob">
-              <g class="fig-wobble">
-                <image class="bobblehead" href="assets/avatar-bobblehead.png" x="-40" y="-200" width="110" height="240"/>
-              </g>
+            <image class="bobble-body" href="assets/avatar-bobble-body.png" x="-2" y="-32.5" width="34" height="74.5"/>
+            <g class="bobble-head-wrap">
+              <image class="bobble-head" href="assets/avatar-bobble-head.png" x="-2" y="-32.5" width="34" height="34"/>
             </g>
           </svg>
         </div>
