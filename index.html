@@ -7,50 +7,25 @@
 <meta name="description" content="Shany Avidar — CMO. Brand, Product, AI, Growth, Sales.">
 <style>
   :root {
-    --backdrop: #DEDCD2;
-    --paper: #F5F4EF;
-    --ink: #1B1A17;
-    --ink-soft: #57554C;
-    --ink-faint: #8B887D;
-    --accent: #3B5D45;
-    --accent-soft: #6E8A73;
-    --rule: rgba(27,26,23,0.14);
-    --rule-strong: rgba(27,26,23,0.30);
+    /* Graphite + neon pink — a deliberate single dark identity, not a light/dark toggle */
+    --backdrop: #19181B;
+    --paper: #242226;
+    --ink: #F3F1F2;
+    --ink-soft: #B8B3B8;
+    --ink-faint: #87828A;
+    --accent: #FF3EA5;
+    --accent-soft: #C25E8E;
+    --rule: rgba(255,255,255,0.12);
+    --rule-strong: rgba(255,255,255,0.28);
     --font: 'Avenir Next', Avenir, 'Century Gothic', Futura, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
     --font-editorial: 'Iowan Old Style', 'Palatino Linotype', Georgia, 'Times New Roman', serif;
 
-    /* Sidebar is a deliberate fixed-dark rail — same values in light or dark page theme */
-    --side-bg: #1B1A17;
-    --side-text: #F5F4EF;
-    --side-text-soft: #B9B6AC;
-    --side-rule: rgba(245,244,239,0.14);
-    --side-accent: #86AE85;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --backdrop: #0B0C0A;
-      --paper: #18191A;
-      --ink: #EDEAE2;
-      --ink-soft: #B9B6AC;
-      --ink-faint: #7C7A70;
-      --accent: #86AE85;
-      --accent-soft: #5D7E60;
-      --rule: rgba(237,234,226,0.14);
-      --rule-strong: rgba(237,234,226,0.30);
-    }
-  }
-
-  :root[data-theme="dark"] {
-    --backdrop: #0B0C0A;
-    --paper: #18191A;
-    --ink: #EDEAE2;
-    --ink-soft: #B9B6AC;
-    --ink-faint: #7C7A70;
-    --accent: #86AE85;
-    --accent-soft: #5D7E60;
-    --rule: rgba(237,234,226,0.14);
-    --rule-strong: rgba(237,234,226,0.30);
+    /* Sidebar is a deliberate fixed rail, one shade darker than the main graphite */
+    --side-bg: #19181B;
+    --side-text: #F3F1F2;
+    --side-text-soft: #B8B3B8;
+    --side-rule: rgba(255,255,255,0.12);
+    --side-accent: #FF3EA5;
   }
 
   * { box-sizing: border-box; min-width: 0; }
@@ -240,20 +215,48 @@
   }
   .avatar-marker {
     position: absolute;
-    left: 14px;
+    left: 17px;
     top: 0;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid var(--accent);
-    background: var(--paper);
+    width: 26px;
+    height: 44px;
     z-index: 3;
     opacity: 0;
   }
-  .avatar-marker img { width: 100%; height: 100%; object-fit: cover; }
+  .avatar-marker svg { width: 100%; height: 100%; overflow: visible; }
   @media (prefers-reduced-motion: no-preference) {
     .avatar-marker { transition: top 0.2s linear, opacity 0.25s ease; }
+
+    .avatar-marker .fig-bob { animation: walk-bob 0.5s ease-in-out infinite; transform-box: fill-box; }
+    .avatar-marker .fig-wobble { animation: walk-wobble 0.5s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+    .avatar-marker .arm-left { animation: walk-arm-l 0.5s ease-in-out infinite; transform-origin: 9px 15px; }
+    .avatar-marker .arm-right { animation: walk-arm-r 0.5s ease-in-out infinite; transform-origin: 19px 15px; }
+    .avatar-marker .leg-left { animation: walk-leg-l 0.5s ease-in-out infinite; transform-origin: 11px 29px; }
+    .avatar-marker .leg-right { animation: walk-leg-r 0.5s ease-in-out infinite; transform-origin: 17px 29px; }
+  }
+
+  @keyframes walk-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+  @keyframes walk-wobble {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+  @keyframes walk-leg-l {
+    0%, 100% { transform: rotate(-32deg); }
+    50% { transform: rotate(32deg); }
+  }
+  @keyframes walk-leg-r {
+    0%, 100% { transform: rotate(32deg); }
+    50% { transform: rotate(-32deg); }
+  }
+  @keyframes walk-arm-l {
+    0%, 100% { transform: rotate(38deg); }
+    50% { transform: rotate(-38deg); }
+  }
+  @keyframes walk-arm-r {
+    0%, 100% { transform: rotate(-38deg); }
+    50% { transform: rotate(38deg); }
   }
 
   .role, .role-group { position: relative; }
@@ -283,7 +286,7 @@
   @media (max-width: 640px) {
     .timeline-track { padding-left: 58px; }
     .track-line { left: 22px; }
-    .avatar-marker { left: 6px; }
+    .avatar-marker { left: 9px; width: 26px; height: 44px; }
     .node-logo { left: -52px; width: 34px; height: 34px; }
   }
 
@@ -469,7 +472,22 @@
 
       <div class="timeline-track" id="track">
         <div class="track-line"></div>
-        <div class="avatar-marker" id="avatarMarker"><img src="assets/avatar.png" alt=""></div>
+        <div class="avatar-marker" id="avatarMarker" aria-hidden="true">
+          <svg viewBox="0 0 28 46" xmlns="http://www.w3.org/2000/svg">
+            <g class="fig-bob">
+              <g class="fig-wobble">
+                <rect class="leg leg-left" x="9" y="29" width="4" height="14" rx="2" fill="#15151A"/>
+                <rect class="leg leg-right" x="15" y="29" width="4" height="14" rx="2" fill="#15151A"/>
+                <rect class="torso" x="8" y="14" width="12" height="16" rx="3" fill="#15151A"/>
+                <rect class="arm arm-left" x="7.5" y="15" width="3" height="13" rx="1.5" fill="#15151A"/>
+                <rect class="arm arm-right" x="17.5" y="15" width="3" height="13" rx="1.5" fill="#15151A"/>
+                <rect class="collar" x="12" y="14" width="4" height="5" fill="#F3F1F2"/>
+                <ellipse class="hair" cx="14" cy="10" rx="8.5" ry="12.5" fill="#241C18"/>
+                <circle class="head" cx="14" cy="7" r="6" fill="#E8B48C"/>
+              </g>
+            </g>
+          </svg>
+        </div>
 
         <article class="role" id="now">
           <div class="node-logo"><img src="assets/logo-ratingiq.png" alt="RatingIQ logo"></div>
