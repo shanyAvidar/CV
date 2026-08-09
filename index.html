@@ -483,7 +483,12 @@
                 <rect class="arm arm-right" x="17.5" y="15" width="3" height="13" rx="1.5" fill="#15151A"/>
                 <rect class="collar" x="12" y="14" width="4" height="5" fill="#F3F1F2"/>
                 <ellipse class="hair" cx="14" cy="10" rx="8.5" ry="12.5" fill="#241C18"/>
-                <circle class="head" cx="14" cy="7" r="6" fill="#E8B48C"/>
+                <defs>
+                  <clipPath id="headClip">
+                    <circle cx="14" cy="7" r="6"/>
+                  </clipPath>
+                </defs>
+                <image class="head" href="assets/avatar-face.png" x="8" y="1" width="12" height="12" clip-path="url(#headClip)" preserveAspectRatio="xMidYMid slice"/>
               </g>
             </g>
           </svg>
