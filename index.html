@@ -215,10 +215,10 @@
   }
   .avatar-marker {
     position: absolute;
-    left: 17px;
+    left: 16px;
     top: 0;
-    width: 26px;
-    height: 44px;
+    width: 28px;
+    height: 47px;
     z-index: 3;
     opacity: 0;
   }
@@ -228,10 +228,10 @@
 
     .avatar-marker .fig-bob { animation: walk-bob 0.5s ease-in-out infinite; transform-box: fill-box; }
     .avatar-marker .fig-wobble { animation: walk-wobble 0.5s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
-    .avatar-marker .arm-left { animation: walk-arm-l 0.5s ease-in-out infinite; transform-origin: 9px 15px; }
-    .avatar-marker .arm-right { animation: walk-arm-r 0.5s ease-in-out infinite; transform-origin: 19px 15px; }
-    .avatar-marker .leg-left { animation: walk-leg-l 0.5s ease-in-out infinite; transform-origin: 11px 29px; }
-    .avatar-marker .leg-right { animation: walk-leg-r 0.5s ease-in-out infinite; transform-origin: 17px 29px; }
+    .avatar-marker .arm-left { animation: walk-arm-l 0.5s ease-in-out infinite; transform-origin: 10px 26px; }
+    .avatar-marker .arm-right { animation: walk-arm-r 0.5s ease-in-out infinite; transform-origin: 20px 26px; }
+    .avatar-marker .leg-left { animation: walk-leg-l 0.5s ease-in-out infinite; transform-origin: 13px 34px; }
+    .avatar-marker .leg-right { animation: walk-leg-r 0.5s ease-in-out infinite; transform-origin: 17px 34px; }
   }
 
   @keyframes walk-bob {
@@ -286,7 +286,7 @@
   @media (max-width: 640px) {
     .timeline-track { padding-left: 58px; }
     .track-line { left: 22px; }
-    .avatar-marker { left: 9px; width: 26px; height: 44px; }
+    .avatar-marker { left: 10px; width: 24px; height: 40px; }
     .node-logo { left: -52px; width: 34px; height: 34px; }
   }
 
@@ -473,22 +473,21 @@
       <div class="timeline-track" id="track">
         <div class="track-line"></div>
         <div class="avatar-marker" id="avatarMarker" aria-hidden="true">
-          <svg viewBox="0 0 28 46" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 30 50" xmlns="http://www.w3.org/2000/svg">
             <g class="fig-bob">
               <g class="fig-wobble">
-                <rect class="leg leg-left" x="9" y="29" width="4" height="14" rx="2" fill="#15151A"/>
-                <rect class="leg leg-right" x="15" y="29" width="4" height="14" rx="2" fill="#15151A"/>
-                <rect class="torso" x="8" y="14" width="12" height="16" rx="3" fill="#15151A"/>
-                <rect class="arm arm-left" x="7.5" y="15" width="3" height="13" rx="1.5" fill="#15151A"/>
-                <rect class="arm arm-right" x="17.5" y="15" width="3" height="13" rx="1.5" fill="#15151A"/>
-                <rect class="collar" x="12" y="14" width="4" height="5" fill="#F3F1F2"/>
-                <ellipse class="hair" cx="14" cy="10" rx="8.5" ry="12.5" fill="#241C18"/>
+                <rect class="leg leg-left" x="11.5" y="34" width="3" height="10" rx="1.5" fill="#FFFFFF"/>
+                <rect class="leg leg-right" x="15.5" y="34" width="3" height="10" rx="1.5" fill="#FFFFFF"/>
+                <rect class="torso" x="11" y="25" width="8" height="10" rx="3" fill="#FFFFFF"/>
+                <rect class="arm arm-left" x="8.8" y="26" width="2.4" height="8" rx="1.2" fill="#FFFFFF"/>
+                <rect class="arm arm-right" x="18.8" y="26" width="2.4" height="8" rx="1.2" fill="#FFFFFF"/>
+                <ellipse class="hair" cx="15" cy="14" rx="13" ry="17" fill="#241C18"/>
                 <defs>
                   <clipPath id="headClip">
-                    <circle cx="14" cy="7" r="6"/>
+                    <circle cx="15" cy="11" r="10"/>
                   </clipPath>
                 </defs>
-                <image class="head" href="assets/avatar-face.png" x="8" y="1" width="12" height="12" clip-path="url(#headClip)" preserveAspectRatio="xMidYMid slice"/>
+                <image class="head" href="assets/avatar-face.png" x="5" y="1" width="20" height="20" clip-path="url(#headClip)" preserveAspectRatio="xMidYMid slice"/>
               </g>
             </g>
           </svg>
