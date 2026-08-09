@@ -1,0 +1,326 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Shany Avidar — CV</title>
+<style>
+  @page { size: A4; margin: 11mm 14mm; }
+
+  :root {
+    --ink: #1B1A17;
+    --ink-soft: #55534B;
+    --ink-faint: #86837A;
+    --accent: #3B5D45;
+    --rule: rgba(27,26,23,0.16);
+    --rule-strong: rgba(27,26,23,0.32);
+    --font: 'Avenir Next', Avenir, 'Century Gothic', Futura, -apple-system, 'Segoe UI', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #FAFAF8;
+    color: var(--ink);
+    font-family: var(--font);
+  }
+
+  .sheet {
+    width: 100%;
+    max-width: 150mm;
+    margin: 0 auto;
+  }
+
+  .break { break-before: page; }
+
+  /* ---------- Masthead ---------- */
+
+  h1.name {
+    font-weight: 750;
+    font-size: 22pt;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin: 0 0 3pt;
+  }
+
+  .territory {
+    font-size: 7.6pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+    color: var(--ink-soft);
+    margin: 0 0 4.5pt;
+  }
+
+  .contact {
+    font-size: 7.6pt;
+    color: var(--ink-faint);
+    margin: 0 0 11pt;
+  }
+  .contact a { color: inherit; text-decoration: none; }
+  .contact .sep { margin: 0 0.5em; color: var(--rule-strong); }
+
+  /* ---------- Intro ---------- */
+
+  .intro {
+    font-size: 8.3pt;
+    line-height: 1.48;
+    margin: 0 0 11pt;
+  }
+  .intro p { margin: 0 0 5.5pt; }
+  .intro p:last-child { margin-bottom: 0; }
+
+  /* ---------- Capability line ---------- */
+
+  .capability-line {
+    font-size: 6.6pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-soft);
+    text-align: center;
+    padding: 5pt 0;
+    border-top: 0.75pt solid var(--rule);
+    border-bottom: 0.75pt solid var(--rule);
+    margin-bottom: 13pt;
+  }
+  .capability-line .dot { color: var(--accent); margin: 0 0.6em; }
+
+  /* ---------- Role sections ---------- */
+
+  .role { margin-bottom: 11pt; break-inside: avoid-page; }
+  .role:last-child { margin-bottom: 0; }
+
+  .role .label {
+    display: flex;
+    align-items: baseline;
+    gap: 6pt;
+    margin-bottom: 3pt;
+  }
+  .role .label span {
+    font-size: 6.6pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .role .label .rule { flex: 1; height: 0.75pt; background: var(--rule-strong); }
+
+  .role .title {
+    font-size: 10pt;
+    font-weight: 700;
+    margin: 0 0 1pt;
+  }
+
+  .role .org {
+    font-size: 7.5pt;
+    color: var(--ink-faint);
+    margin: 0 0 3.5pt;
+  }
+
+  .pull {
+    font-style: italic;
+    font-size: 8.6pt;
+    font-weight: 600;
+    line-height: 1.38;
+    color: var(--ink);
+    margin: 0 0 5.5pt;
+    padding-left: 7pt;
+    border-left: 1.5pt solid var(--accent);
+  }
+
+  .role ul { margin: 0; padding: 0 0 0 9pt; list-style: none; }
+  .role li {
+    position: relative;
+    font-size: 7.8pt;
+    line-height: 1.42;
+    margin-bottom: 3pt;
+  }
+  .role li::before {
+    content: "";
+    position: absolute;
+    left: -9pt;
+    top: 0.5em;
+    width: 2.4pt;
+    height: 2.4pt;
+    background: var(--ink-faint);
+    border-radius: 50%;
+  }
+  .role li:last-child { margin-bottom: 0; }
+
+  .closer {
+    font-style: italic;
+    font-size: 7.8pt;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-top: 5pt;
+  }
+
+  /* ---------- Colophon ---------- */
+
+  .colophon {
+    display: flex;
+    gap: 26pt;
+    padding-top: 9pt;
+    border-top: 0.75pt solid var(--rule);
+    margin-top: 4pt;
+  }
+  .colophon > div { flex: 1; }
+
+  .colophon .label {
+    font-size: 6.6pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 3.5pt;
+  }
+
+  .degree { margin-bottom: 3pt; }
+  .degree .deg-name { font-size: 8pt; font-weight: 700; }
+  .degree .school { font-size: 7.2pt; color: var(--ink-faint); }
+
+  .lang-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 7.6pt;
+    padding: 1.5pt 0;
+    border-bottom: 0.5pt solid var(--rule);
+  }
+  .lang-row:last-child { border-bottom: none; }
+  .lang-row .level { color: var(--ink-faint); }
+
+  .final-line {
+    font-style: italic;
+    font-size: 7.8pt;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-align: center;
+    margin: 9pt 0 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+  <header>
+    <h1 class="name">Shany Avidar</h1>
+    <p class="territory">CMO &middot; Brand &middot; Product &middot; AI &middot; Growth &middot; Sales</p>
+    <p class="contact">
+      Tel Aviv<span class="sep">&middot;</span><a href="mailto:shanyavidar@gmail.com">shanyavidar@gmail.com</a><span class="sep">&middot;</span><a href="tel:+972523219497">052-3219497</a><span class="sep">&middot;</span>LinkedIn
+    </p>
+  </header>
+
+  <section class="intro">
+    <p>CMO. Operator of things that don&rsquo;t fit neatly into job descriptions.</p>
+    <p>I started in marketing. Somewhere along the way, the borders got blurry.</p>
+    <p>Today I build the story, the brand and the growth engine, but I also design product flows, build automations, QA what we ship, work directly with developers (and yes, I&rsquo;ve even developed a few things myself :)), manage people, talk to customers and step into sales when that&rsquo;s where the company needs me.</p>
+    <p>AI has changed what I&rsquo;m able to take on. I use it deeply across strategy, research, product, design, automation, creative work and execution, and I&rsquo;ve become very good at learning whatever I need to learn next. Fast.</p>
+    <p>That&rsquo;s probably the biggest shift in me over the last few years: I stopped thinking in terms of what belongs to my role. If something needs to exist, work better, look better, sell better or simply get done, I&rsquo;m usually already figuring out how.</p>
+    <p>I&rsquo;m still a marketer at heart. I just became considerably harder to put in a box.</p>
+  </section>
+
+  <div class="capability-line">
+    Brand<span class="dot">&middot;</span>Product<span class="dot">&middot;</span>AI<span class="dot">&middot;</span>Automation<span class="dot">&middot;</span>Growth<span class="dot">&middot;</span>Sales
+  </div>
+
+  <section class="role">
+    <div class="label"><span>Now</span><div class="rule"></div></div>
+    <h2 class="title">Chief Marketing Officer (CMO)</h2>
+    <p class="org">RatingIQ &middot; 2026&ndash;Present</p>
+    <p class="pull">RatingIQ is probably where my job description officially stopped being useful.</p>
+    <ul>
+      <li>Repositioned the company from a review-management tool into a Rating-Performance System for hotels, building the category, brand, messaging and commercial narrative around the impact of reputation on rankings, bookings, room revenue and pricing performance.</li>
+      <li>Built the company&rsquo;s digital presence from scratch, strategy, architecture, copy, creative direction and hands-on website execution, alongside the broader brand system and market-facing identity.</li>
+      <li>Expanded deeply into product, designing UX/UI flows, shaping features around real hotel operational needs, working directly with development and taking an active role in product QA before things reached customers.</li>
+      <li>Made AI and automation part of how I work, not a side tool: using AI across strategy, research, product, design and creative production, while personally building automations for social channels and broader marketing workflows.</li>
+      <li>Built and led the growth engine from positioning through pipeline, spanning content, outbound, acquisition, sales enablement and customer communication, then stepped directly into sales conversations to help turn interest into opportunities and revenue.</li>
+      <li>Managed interns and cross-functional initiatives while staying deliberately hands-on. Strategy when strategy was needed. Execution when execution was needed. Occasionally both before lunch.</li>
+    </ul>
+  </section>
+
+  <section class="role">
+    <div class="label"><span>Before That</span><div class="rule"></div></div>
+    <h2 class="title">Head of Marketing</h2>
+    <p class="org">Peech-ai &middot; Raanana &middot; 2025&ndash;Present</p>
+    <p class="pull">I came in to fix the story. The numbers followed.</p>
+    <ul>
+      <li>Joined as the first marketing hire and rebuilt the company&rsquo;s positioning, ICPs, messaging and GTM narrative from the ground up, aligning product, sales, leadership, board members and investors around one story.</li>
+      <li>Launched a new hero homepage in roughly 7 days, generating approximately 78 organic inbound leads within days and converting early demand into around 20 booked sales calls before any paid campaigns launched.</li>
+      <li>Built the founder-led authority strategy, content direction and narrative that positioned the CEO as a credible category voice rather than another founder posting because LinkedIn said he should.</li>
+      <li>Created the core commercial infrastructure around the story: sales, board and internal decks; seven marketing videos; the company&rsquo;s first strategic content playbook; segmented email sequences; campaign concepts and landing-page architecture.</li>
+      <li>Explored new GTM routes, partnerships and distribution opportunities beyond traditional SaaS buyers, while running marketing end-to-end as a solo operator under a $20K monthly budget and spending less than half of it.</li>
+      <li>Owned strategy, execution, analytics and sales alignment in an early-stage environment where speed mattered, but clarity mattered more.</li>
+    </ul>
+    <p class="closer">Most of the work wasn&rsquo;t about marketing louder. It was about finally giving the company something clear to say.</p>
+  </section>
+
+  <section class="role break">
+    <div class="label"><span>The Building Years</span><div class="rule"></div></div>
+    <h2 class="title">Head of Marketing</h2>
+    <p class="org">Crow &middot; Airport City &middot; 2024&ndash;2025</p>
+    <p class="pull">This was the first role where I really learned what building marketing from zero feels like. There is significantly less glamour involved than the decks suggest.</p>
+    <ul>
+      <li>Joined at an early growth stage and built the company&rsquo;s marketing foundation from scratch, defining positioning, messaging and the brand narrative for a competitive B2B market.</li>
+      <li>Translated a complex product into a clearer commercial story, strengthening sales conversations and market credibility within the first months.</li>
+      <li>Built and executed campaigns, content, sales materials, event presence and digital assets in-house, keeping the function lean and fast.</li>
+      <li>Worked closely with sales and leadership, treating marketing as part of the revenue operation rather than a department waiting for briefs.</li>
+      <li>Built relationships with partners, vendors and prospects while learning the part of startup marketing I now value most: ownership usually matters more than resources.</li>
+    </ul>
+  </section>
+
+  <section class="role">
+    <div class="label"><span>The Global Years</span><div class="rule"></div></div>
+    <h2 class="title">Senior Global Marketing Manager</h2>
+    <p class="org">Essence Group &middot; Herzliya &middot; 2021&ndash;2024</p>
+    <p class="pull">Before startup life made me allergic to narrow job descriptions, I learned how to operate globally.</p>
+    <ul>
+      <li>Led marketing initiatives across 20+ international markets and multiple product lines spanning IoT Security, SmartCare and Medical Cosmetics.</li>
+      <li>Adapted positioning, messaging and GTM activity to different regions, regulations, buyer personas and commercial realities.</li>
+      <li>Supported launches and rebranding initiatives and created sales-enablement materials including case studies, videos, brochures and whitepapers.</li>
+      <li>Planned and executed major international exhibitions and conferences, working across sales, product, regional teams and external suppliers.</li>
+      <li>Launched a new corporate website designed around sales and inbound demand, contributing to an estimated 25% improvement in lead quality and engagement.</li>
+      <li>Built the kind of cross-market experience that later made early-stage chaos feel surprisingly manageable.</li>
+    </ul>
+  </section>
+
+  <section class="role" style="margin-bottom: 9pt;">
+    <h2 class="title">Marketing Communications Manager</h2>
+    <p class="org">AiTechSystems &middot; Kfar Saba &middot; 2018&ndash;2021</p>
+    <p class="pull">This is where the foundation was built.</p>
+    <ul>
+      <li>Developed integrated marketing campaigns across international markets, creating industry-specific messaging and thought-leadership content.</li>
+      <li>Led branding and content for exhibitions, webinars and product showcases while managing multilingual, market-specific communication.</li>
+      <li>Used traffic, engagement and lead data to continuously improve digital performance, conversion and retention.</li>
+      <li>Learned how brand, content, sales and customer relationships connect long before I started giving those connections fancy strategic names.</li>
+    </ul>
+  </section>
+
+  <div class="colophon">
+    <div>
+      <p class="label">Education</p>
+      <div class="degree">
+        <p class="deg-name">BA, Interior Design</p>
+        <p class="school">Istituto Europeo Di Design &middot; Barcelona, Spain</p>
+      </div>
+      <div class="degree">
+        <p class="deg-name">Academic Degree, Culinary Arts</p>
+        <p class="school">Tadmor Academy &middot; Herzliya, Israel</p>
+      </div>
+    </div>
+    <div>
+      <p class="label">Languages</p>
+      <div class="lang-row"><span>Hebrew</span><span class="level">Native</span></div>
+      <div class="lang-row"><span>English</span><span class="level">Native level</span></div>
+      <div class="lang-row"><span>Spanish</span><span class="level">Basic</span></div>
+      <div class="lang-row"><span>Russian</span><span class="level">Basic</span></div>
+    </div>
+  </div>
+
+  <p class="final-line">Yes, marketing came later. No, neither degree was wasted.</p>
+</div>
+
+</body>
+</html>
