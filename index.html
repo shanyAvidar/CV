@@ -226,7 +226,7 @@
   @media (prefers-reduced-motion: no-preference) {
     .avatar-marker { transition: top 0.2s linear, opacity 0.25s ease; }
 
-    .avatar-marker .bobble-head-wrap { animation: head-bob 1s ease-in-out infinite; transform-box: fill-box; }
+    .avatar-marker .bobble-head-wrap { animation: head-bob 1s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
   }
 
   @keyframes head-bob {
@@ -449,9 +449,8 @@
         <div class="track-line"></div>
         <div class="avatar-marker" id="avatarMarker" aria-hidden="true">
           <svg viewBox="0 0 30 50" xmlns="http://www.w3.org/2000/svg">
-            <image class="bobble-body" href="assets/avatar-bobble-body.png" x="-19" y="-107.1" width="68" height="149.1"/>
             <g class="bobble-head-wrap">
-              <image class="bobble-head" href="assets/avatar-bobble-head.png" x="-19" y="-107.1" width="68" height="68"/>
+              <image class="bobble-body" href="assets/avatar-bobblehead-transparent.png" x="-19" y="-107.1" width="68" height="149.1"/>
             </g>
           </svg>
         </div>
