@@ -910,6 +910,7 @@
     'product-ui-ux': {
       type: 'live',
       label: 'Product UI/UX',
+      hideLink: true,
       pages: [
         { label: 'GuestIQ', url: 'https://shanyavidar.github.io/Product-UI-UX/guestiq/' },
         { label: 'OperatingIQ', url: 'https://shanyavidar.github.io/Product-UI-UX/operatingiq/' },
@@ -973,6 +974,7 @@
     var data = assetData[key];
     if (!data || !modal) return;
     currentKey = key;
+    modalLink.style.display = data.hideLink ? 'none' : '';
 
     if (data.type === 'live') {
       modalWindow.classList.add('is-live');
