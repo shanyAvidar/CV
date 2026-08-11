@@ -354,6 +354,127 @@
     margin-top: 1.6rem;
   }
 
+  /* ================= Role assets (proof-point thumbnails) ================= */
+
+  .role-assets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-top: 1.6rem;
+  }
+
+  .asset-thumb {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    width: 320px;
+    max-width: 100%;
+  }
+  .asset-thumb img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    object-position: top;
+    border: 1px solid var(--rule);
+    display: block;
+  }
+  .asset-thumb .asset-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .asset-thumb img { transition: filter 0.15s ease; }
+  }
+  .asset-thumb:hover img { filter: brightness(1.12); }
+  .asset-thumb:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  /* ================= Asset popup window ================= */
+
+  .asset-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.62);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    z-index: 50;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .asset-modal.open { opacity: 1; pointer-events: auto; }
+  @media (prefers-reduced-motion: no-preference) {
+    .asset-modal { transition: opacity 0.2s ease; }
+  }
+
+  .asset-window {
+    background: var(--paper);
+    border: 1px solid var(--rule-strong);
+    width: 100%;
+    max-width: 740px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+  }
+
+  .asset-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid var(--rule);
+    flex-shrink: 0;
+  }
+  .asset-dots { display: flex; gap: 5px; }
+  .asset-dots span {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--rule-strong);
+    display: inline-block;
+  }
+  .asset-window-label {
+    flex: 1;
+    text-align: center;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-soft);
+  }
+  .asset-close {
+    all: unset;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    color: var(--ink-faint);
+    padding: 0.15rem 0.3rem;
+  }
+  .asset-close:hover { color: var(--accent); }
+
+  .asset-window-body { overflow: auto; }
+  .asset-window-body img { width: 100%; display: block; }
+
+  .asset-open-link {
+    display: block;
+    text-align: center;
+    padding: 0.8rem;
+    font-size: 0.76rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-decoration: none;
+    border-top: 1px solid var(--rule);
+    flex-shrink: 0;
+  }
+  .asset-open-link:hover { text-decoration: underline; }
+
   /* ================= Colophon (education / languages) ================= */
 
   .colophon {
@@ -469,6 +590,12 @@
             <li>Built and led the growth engine from positioning through pipeline, spanning content, outbound, acquisition, sales enablement and customer communication, then stepped directly into sales conversations to help turn interest into opportunities and revenue.</li>
             <li>Managed interns and cross-functional initiatives while staying deliberately hands-on. Strategy when strategy was needed. Execution when execution was needed. Occasionally both before lunch.</li>
           </ul>
+          <div class="role-assets">
+            <button type="button" class="asset-thumb" data-asset="ratingiq-website">
+              <img src="assets/asset-ratingiq-website.png" alt="RatingIQ homepage">
+              <span class="asset-label">The Website</span>
+            </button>
+          </div>
         </article>
 
         <article class="role" id="before">
@@ -562,6 +689,20 @@
 
     </div>
   </main>
+</div>
+
+<div class="asset-modal" id="assetModal" aria-hidden="true">
+  <div class="asset-window" role="dialog" aria-modal="true" aria-labelledby="assetModalLabel">
+    <div class="asset-titlebar">
+      <span class="asset-dots"><span></span><span></span><span></span></span>
+      <span class="asset-window-label" id="assetModalLabel"></span>
+      <button type="button" class="asset-close" id="assetModalClose" aria-label="Close">&times;</button>
+    </div>
+    <div class="asset-window-body">
+      <img id="assetModalImg" src="" alt="">
+    </div>
+    <a class="asset-open-link" id="assetModalLink" href="#" target="_blank" rel="noopener">Open &#8599;</a>
+  </div>
 </div>
 
 <script>
@@ -693,6 +834,58 @@
     }, { rootMargin: '-40% 0px -50% 0px' });
 
     sections.forEach(function (section) { navObserver.observe(section); });
+  }
+
+  var assetData = {
+    'ratingiq-website': {
+      img: 'assets/asset-ratingiq-website.png',
+      label: 'The Website',
+      link: 'https://rating-iq.com'
+    }
+  };
+
+  var modal = document.getElementById('assetModal');
+  var modalImg = document.getElementById('assetModalImg');
+  var modalLabel = document.getElementById('assetModalLabel');
+  var modalLink = document.getElementById('assetModalLink');
+  var modalClose = document.getElementById('assetModalClose');
+  var lastFocused = null;
+
+  function openAssetModal(key) {
+    var data = assetData[key];
+    if (!data || !modal) return;
+    modalImg.src = data.img;
+    modalImg.alt = data.label;
+    modalLabel.textContent = data.label;
+    modalLink.href = data.link;
+    modalLink.textContent = 'Open ' + data.link.replace(/^https?:\/\//, '') + ' ↗';
+    lastFocused = document.activeElement;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    modalClose.focus();
+  }
+
+  function closeAssetModal() {
+    if (!modal) return;
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    if (lastFocused) lastFocused.focus();
+  }
+
+  document.querySelectorAll('.asset-thumb').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      openAssetModal(btn.dataset.asset);
+    });
+  });
+
+  if (modal) {
+    modalClose.addEventListener('click', closeAssetModal);
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) closeAssetModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('open')) closeAssetModal();
+    });
   }
 })();
 </script>
