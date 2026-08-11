@@ -461,13 +461,54 @@
   }
   .asset-close:hover { color: var(--accent); }
 
-  .asset-window-body { overflow: auto; }
+  .asset-window-body { overflow: auto; position: relative; }
   .asset-window-body img { width: 100%; display: block; }
   .asset-window-body iframe { width: 100%; height: 100%; border: 0; display: none; }
   .asset-window.is-live .asset-window-body { flex: 1; min-height: 0; overflow: hidden; }
   .asset-window.is-live #assetModalImg { display: none; }
   .asset-window.is-live #assetModalFrame { display: block; }
   .asset-window.is-image #assetModalFrame { display: none; }
+
+  .asset-arrow {
+    all: unset;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--ink);
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .asset-window.has-pages .asset-arrow { display: flex; }
+  .asset-arrow:hover { color: var(--accent); border-color: var(--accent); }
+  .asset-arrow-prev { left: 12px; }
+  .asset-arrow-next { right: 12px; }
+
+  .asset-page-dots {
+    display: none;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.6rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  .asset-window.has-pages .asset-page-dots { display: flex; }
+  .asset-page-dots span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--rule-strong);
+    cursor: pointer;
+  }
+  .asset-page-dots span.active { background: var(--accent); }
 
   .asset-open-link {
     display: block;
@@ -604,21 +645,9 @@
               <img src="assets/asset-ratingiq-website.png" alt="RatingIQ homepage">
               <span class="asset-label">The Website</span>
             </button>
-            <button type="button" class="asset-thumb" data-asset="guestiq">
-              <img src="assets/asset-guestiq.png" alt="GuestIQ product screen">
-              <span class="asset-label">GuestIQ</span>
-            </button>
-            <button type="button" class="asset-thumb" data-asset="operatingiq">
-              <img src="assets/asset-operatingiq.png" alt="OperatingIQ product screen">
-              <span class="asset-label">OperatingIQ</span>
-            </button>
-            <button type="button" class="asset-thumb" data-asset="replyiq">
-              <img src="assets/asset-replyiq.png" alt="ReplyIQ product screen">
-              <span class="asset-label">ReplyIQ</span>
-            </button>
-            <button type="button" class="asset-thumb" data-asset="chainiq">
-              <img src="assets/asset-chainiq.png" alt="ChainIQ product screen">
-              <span class="asset-label">ChainIQ</span>
+            <button type="button" class="asset-thumb" data-asset="product-ui-ux">
+              <img src="assets/asset-guestiq.png" alt="Product UI/UX">
+              <span class="asset-label">Product UI/UX</span>
             </button>
           </div>
         </article>
@@ -726,7 +755,10 @@
     <div class="asset-window-body">
       <img id="assetModalImg" src="" alt="">
       <iframe id="assetModalFrame" title="" loading="lazy"></iframe>
+      <button type="button" class="asset-arrow asset-arrow-prev" id="assetPrev" aria-label="Previous page">&#8249;</button>
+      <button type="button" class="asset-arrow asset-arrow-next" id="assetNext" aria-label="Next page">&#8250;</button>
     </div>
+    <div class="asset-page-dots" id="assetPageDots"></div>
     <a class="asset-open-link" id="assetModalLink" href="#" target="_blank" rel="noopener">Open &#8599;</a>
   </div>
 </div>
@@ -869,29 +901,15 @@
       label: 'The Website',
       link: 'https://rating-iq.com'
     },
-    'guestiq': {
+    'product-ui-ux': {
       type: 'live',
-      url: 'https://shanyavidar.github.io/Product-UI-UX/guestiq/',
-      label: 'GuestIQ',
-      link: 'https://shanyavidar.github.io/Product-UI-UX/guestiq/'
-    },
-    'operatingiq': {
-      type: 'live',
-      url: 'https://shanyavidar.github.io/Product-UI-UX/operatingiq/',
-      label: 'OperatingIQ',
-      link: 'https://shanyavidar.github.io/Product-UI-UX/operatingiq/'
-    },
-    'replyiq': {
-      type: 'live',
-      url: 'https://shanyavidar.github.io/Product-UI-UX/replyiq/',
-      label: 'ReplyIQ',
-      link: 'https://shanyavidar.github.io/Product-UI-UX/replyiq/'
-    },
-    'chainiq': {
-      type: 'live',
-      url: 'https://shanyavidar.github.io/Product-UI-UX/chainiq/',
-      label: 'ChainIQ',
-      link: 'https://shanyavidar.github.io/Product-UI-UX/chainiq/'
+      label: 'Product UI/UX',
+      pages: [
+        { label: 'GuestIQ', url: 'https://shanyavidar.github.io/Product-UI-UX/guestiq/' },
+        { label: 'OperatingIQ', url: 'https://shanyavidar.github.io/Product-UI-UX/operatingiq/' },
+        { label: 'ReplyIQ', url: 'https://shanyavidar.github.io/Product-UI-UX/replyiq/' },
+        { label: 'ChainIQ', url: 'https://shanyavidar.github.io/Product-UI-UX/chainiq/' }
+      ]
     }
   };
 
@@ -902,23 +920,65 @@
   var modalLabel = document.getElementById('assetModalLabel');
   var modalLink = document.getElementById('assetModalLink');
   var modalClose = document.getElementById('assetModalClose');
+  var modalPrev = document.getElementById('assetPrev');
+  var modalNext = document.getElementById('assetNext');
+  var modalDots = document.getElementById('assetPageDots');
   var lastFocused = null;
+  var currentKey = null;
+  var currentPageIndex = 0;
+
+  function renderPage() {
+    var data = assetData[currentKey];
+    var page = data.pages[currentPageIndex];
+    modalFrame.title = page.label;
+    modalFrame.src = page.url;
+    modalLabel.textContent = data.label + ' · ' + page.label;
+    modalLink.href = page.url;
+    modalLink.textContent = 'Open ' + page.url.replace(/^https?:\/\//, '') + ' ↗';
+    modalDots.querySelectorAll('span').forEach(function (dot, i) {
+      dot.classList.toggle('active', i === currentPageIndex);
+    });
+  }
+
+  function goToPage(i) {
+    var data = assetData[currentKey];
+    currentPageIndex = (i + data.pages.length) % data.pages.length;
+    renderPage();
+  }
 
   function openAssetModal(key) {
     var data = assetData[key];
     if (!data || !modal) return;
-    modalLabel.textContent = data.label;
-    modalLink.href = data.link;
-    modalLink.textContent = 'Open ' + data.link.replace(/^https?:\/\//, '') + ' ↗';
+    currentKey = key;
 
     if (data.type === 'live') {
       modalWindow.classList.add('is-live');
       modalWindow.classList.remove('is-image');
-      modalFrame.title = data.label;
-      modalFrame.src = data.url;
+
+      if (data.pages && data.pages.length > 1) {
+        modalWindow.classList.add('has-pages');
+        modalDots.innerHTML = '';
+        data.pages.forEach(function (_, i) {
+          var dot = document.createElement('span');
+          dot.addEventListener('click', function () { goToPage(i); });
+          modalDots.appendChild(dot);
+        });
+        currentPageIndex = 0;
+        renderPage();
+      } else {
+        modalWindow.classList.remove('has-pages');
+        modalLabel.textContent = data.label;
+        modalLink.href = data.link;
+        modalLink.textContent = 'Open ' + data.link.replace(/^https?:\/\//, '') + ' ↗';
+        modalFrame.title = data.label;
+        modalFrame.src = data.url;
+      }
     } else {
       modalWindow.classList.add('is-image');
-      modalWindow.classList.remove('is-live');
+      modalWindow.classList.remove('is-live', 'has-pages');
+      modalLabel.textContent = data.label;
+      modalLink.href = data.link;
+      modalLink.textContent = 'Open ' + data.link.replace(/^https?:\/\//, '') + ' ↗';
       modalImg.src = data.img;
       modalImg.alt = data.label;
     }
@@ -945,11 +1005,16 @@
 
   if (modal) {
     modalClose.addEventListener('click', closeAssetModal);
+    modalPrev.addEventListener('click', function () { goToPage(currentPageIndex - 1); });
+    modalNext.addEventListener('click', function () { goToPage(currentPageIndex + 1); });
     modal.addEventListener('click', function (e) {
       if (e.target === modal) closeAssetModal();
     });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && modal.classList.contains('open')) closeAssetModal();
+      if (!modal.classList.contains('open')) return;
+      if (e.key === 'Escape') closeAssetModal();
+      if (e.key === 'ArrowLeft' && modalWindow.classList.contains('has-pages')) goToPage(currentPageIndex - 1);
+      if (e.key === 'ArrowRight' && modalWindow.classList.contains('has-pages')) goToPage(currentPageIndex + 1);
     });
   }
 })();
