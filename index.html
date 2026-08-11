@@ -422,6 +422,10 @@
     overflow: hidden;
     box-shadow: 0 24px 64px rgba(0,0,0,0.5);
   }
+  .asset-window.is-live {
+    max-width: 1150px;
+    height: 82vh;
+  }
 
   .asset-titlebar {
     display: flex;
@@ -459,6 +463,11 @@
 
   .asset-window-body { overflow: auto; }
   .asset-window-body img { width: 100%; display: block; }
+  .asset-window-body iframe { width: 100%; height: 100%; border: 0; display: none; }
+  .asset-window.is-live .asset-window-body { flex: 1; min-height: 0; overflow: hidden; }
+  .asset-window.is-live #assetModalImg { display: none; }
+  .asset-window.is-live #assetModalFrame { display: block; }
+  .asset-window.is-image #assetModalFrame { display: none; }
 
   .asset-open-link {
     display: block;
@@ -595,6 +604,22 @@
               <img src="assets/asset-ratingiq-website.png" alt="RatingIQ homepage">
               <span class="asset-label">The Website</span>
             </button>
+            <button type="button" class="asset-thumb" data-asset="guestiq">
+              <img src="assets/asset-guestiq.png" alt="GuestIQ product screen">
+              <span class="asset-label">GuestIQ</span>
+            </button>
+            <button type="button" class="asset-thumb" data-asset="operatingiq">
+              <img src="assets/asset-operatingiq.png" alt="OperatingIQ product screen">
+              <span class="asset-label">OperatingIQ</span>
+            </button>
+            <button type="button" class="asset-thumb" data-asset="replyiq">
+              <img src="assets/asset-replyiq.png" alt="ReplyIQ product screen">
+              <span class="asset-label">ReplyIQ</span>
+            </button>
+            <button type="button" class="asset-thumb" data-asset="chainiq">
+              <img src="assets/asset-chainiq.png" alt="ChainIQ product screen">
+              <span class="asset-label">ChainIQ</span>
+            </button>
           </div>
         </article>
 
@@ -700,6 +725,7 @@
     </div>
     <div class="asset-window-body">
       <img id="assetModalImg" src="" alt="">
+      <iframe id="assetModalFrame" title="" loading="lazy"></iframe>
     </div>
     <a class="asset-open-link" id="assetModalLink" href="#" target="_blank" rel="noopener">Open &#8599;</a>
   </div>
@@ -838,14 +864,41 @@
 
   var assetData = {
     'ratingiq-website': {
+      type: 'image',
       img: 'assets/asset-ratingiq-website.png',
       label: 'The Website',
       link: 'https://rating-iq.com'
+    },
+    'guestiq': {
+      type: 'live',
+      url: 'https://shanyavidar.github.io/Product-UI-UX/guestiq/',
+      label: 'GuestIQ',
+      link: 'https://shanyavidar.github.io/Product-UI-UX/guestiq/'
+    },
+    'operatingiq': {
+      type: 'live',
+      url: 'https://shanyavidar.github.io/Product-UI-UX/operatingiq/',
+      label: 'OperatingIQ',
+      link: 'https://shanyavidar.github.io/Product-UI-UX/operatingiq/'
+    },
+    'replyiq': {
+      type: 'live',
+      url: 'https://shanyavidar.github.io/Product-UI-UX/replyiq/',
+      label: 'ReplyIQ',
+      link: 'https://shanyavidar.github.io/Product-UI-UX/replyiq/'
+    },
+    'chainiq': {
+      type: 'live',
+      url: 'https://shanyavidar.github.io/Product-UI-UX/chainiq/',
+      label: 'ChainIQ',
+      link: 'https://shanyavidar.github.io/Product-UI-UX/chainiq/'
     }
   };
 
   var modal = document.getElementById('assetModal');
+  var modalWindow = modal ? modal.querySelector('.asset-window') : null;
   var modalImg = document.getElementById('assetModalImg');
+  var modalFrame = document.getElementById('assetModalFrame');
   var modalLabel = document.getElementById('assetModalLabel');
   var modalLink = document.getElementById('assetModalLink');
   var modalClose = document.getElementById('assetModalClose');
@@ -854,11 +907,22 @@
   function openAssetModal(key) {
     var data = assetData[key];
     if (!data || !modal) return;
-    modalImg.src = data.img;
-    modalImg.alt = data.label;
     modalLabel.textContent = data.label;
     modalLink.href = data.link;
     modalLink.textContent = 'Open ' + data.link.replace(/^https?:\/\//, '') + ' ↗';
+
+    if (data.type === 'live') {
+      modalWindow.classList.add('is-live');
+      modalWindow.classList.remove('is-image');
+      modalFrame.title = data.label;
+      modalFrame.src = data.url;
+    } else {
+      modalWindow.classList.add('is-image');
+      modalWindow.classList.remove('is-live');
+      modalImg.src = data.img;
+      modalImg.alt = data.label;
+    }
+
     lastFocused = document.activeElement;
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
@@ -869,6 +933,7 @@
     if (!modal) return;
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden', 'true');
+    modalFrame.src = '';
     if (lastFocused) lastFocused.focus();
   }
 
