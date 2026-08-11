@@ -423,8 +423,8 @@
     box-shadow: 0 24px 64px rgba(0,0,0,0.5);
   }
   .asset-window.is-live {
-    max-width: 1150px;
-    height: 82vh;
+    max-width: min(96vw, 1440px);
+    height: 90vh;
   }
 
   .asset-titlebar {
@@ -463,8 +463,14 @@
 
   .asset-window-body { overflow: auto; position: relative; }
   .asset-window-body img { width: 100%; display: block; }
-  .asset-window-body iframe { width: 100%; height: 100%; border: 0; display: none; }
-  .asset-window.is-live .asset-window-body { flex: 1; min-height: 0; overflow: hidden; }
+  .asset-window-body iframe {
+    border: 0;
+    display: none;
+    position: absolute;
+    background: #fff;
+    transform-origin: top left;
+  }
+  .asset-window.is-live .asset-window-body { flex: 1; min-height: 0; overflow: hidden; background: #000; }
   .asset-window.is-live #assetModalImg { display: none; }
   .asset-window.is-live #assetModalFrame { display: block; }
   .asset-window.is-image #assetModalFrame { display: none; }
@@ -926,6 +932,23 @@
   var lastFocused = null;
   var currentKey = null;
   var currentPageIndex = 0;
+  var NATIVE_W = 1440;
+  var NATIVE_H = 900;
+
+  function fitIframe() {
+    var wrap = modalFrame.parentElement;
+    var w = wrap.clientWidth;
+    var h = wrap.clientHeight;
+    if (!w || !h) return;
+    var scale = Math.min(w / NATIVE_W, h / NATIVE_H, 1);
+    var scaledW = NATIVE_W * scale;
+    var scaledH = NATIVE_H * scale;
+    modalFrame.style.width = NATIVE_W + 'px';
+    modalFrame.style.height = NATIVE_H + 'px';
+    modalFrame.style.transform = 'scale(' + scale + ')';
+    modalFrame.style.left = ((w - scaledW) / 2) + 'px';
+    modalFrame.style.top = ((h - scaledH) / 2) + 'px';
+  }
 
   function renderPage() {
     var data = assetData[currentKey];
@@ -987,6 +1010,10 @@
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
     modalClose.focus();
+
+    if (data.type === 'live') {
+      requestAnimationFrame(fitIframe);
+    }
   }
 
   function closeAssetModal() {
@@ -1009,6 +1036,9 @@
     modalNext.addEventListener('click', function () { goToPage(currentPageIndex + 1); });
     modal.addEventListener('click', function (e) {
       if (e.target === modal) closeAssetModal();
+    });
+    window.addEventListener('resize', function () {
+      if (modal.classList.contains('open') && modalWindow.classList.contains('is-live')) fitIframe();
     });
     document.addEventListener('keydown', function (e) {
       if (!modal.classList.contains('open')) return;
